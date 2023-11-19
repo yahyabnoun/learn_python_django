@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse , HttpResponseNotFound , Http404
 # Create your views here.
 
 
@@ -25,11 +25,29 @@ articles = {
 }
 
 
-def news_view(request,topic):
-    return HttpResponse(articles[topic])
+# def news_view(request,topic):
+#     return HttpResponse(articles[topic])
 
 # ----------------------------------------------------------------------------------------------
 
 def sum_view(request,num1,num2):
     result = num1 + num2
     return HttpResponse(str(result))
+
+
+# ----------------------------------------------------------------------------------------------
+
+# def news_view(request,topic):
+#     try:
+#         return HttpResponse(articles[topic])
+#     except:
+#         result ="we don't have this topic"
+#         return HttpResponseNotFound(result)
+        
+
+def news_view(request,topic):
+    try:
+        return HttpResponse(articles[topic])
+    except:
+        result ="we don't have this topic"
+        raise Http404(result)
